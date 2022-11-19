@@ -18,6 +18,18 @@ function Home() {
   const [showAllData, setShowAllData] = useState(true)
   const [quantity, setQuantity] = useState()
   const [newItems, setNewItems] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  const totalquan = arrCart.map(hh => Number(hh.cartQuan))
+  const price = arrCart.map(hh => Number(hh.price))
+
+  useEffect(() => {
+    var sums = 0;
+    for (var i = 0; i < totalquan?.length; i++) {
+      sums += totalquan[i] * price[i];
+      setTotalPrice(sums)
+    }
+  }, [arrCart, newItems])
 
 
   useEffect(() => {
@@ -80,9 +92,6 @@ function Home() {
     setNewItems([...newItems])
   }
 
-
-
-
   const columns = [
     {
       name: "Image",
@@ -138,15 +147,6 @@ function Home() {
     },
   ];
 
-
-
-
-
-
-
-
-
-
   const QuantityHandle = (e, id) => {
 
     const newval = newItems?.map((itm, idx) => {
@@ -159,10 +159,18 @@ function Home() {
   }
 
 
-
-
+  const Dlt = (id, idx, row) => {
+    let itemsArray = [...arrCart];
+    itemsArray.splice(idx, 1);
+    let newArray = [...itemsArray]
+    setArrCart(newArray);
+  }
 
   const columnsCart = [
+    {
+      name: "Remove",
+      cell: (row, idx) => <Button className="name_color" id={idx} onClick={() => Dlt(row.id, idx, row)}>X</Button>
+    },
     {
       name: "Product",
       selector: (row) => (<Box sx={{ display: 'flex', padding: '10px' }}><img width={70} height={70} src={row.image} /><p>{row.name}</p></Box>),
@@ -273,18 +281,18 @@ function Home() {
         <>
           <Grid container spacing={2}>
             <Grid item xs={8}>
-            <DataTable
-            columns={columnsCart}
-            data={arrCart}
-            fixedHeader
-            selectableRowsHighlight
-            highlightOnHover
-            subHeader
-            subHeaderAlign="right"
-          />
+              <DataTable
+                columns={columnsCart}
+                data={arrCart}
+                fixedHeader
+                selectableRowsHighlight
+                highlightOnHover
+                subHeader
+                subHeaderAlign="right"
+              />
             </Grid>
             <Grid item xs={4}>
-            <BasicMenu />
+              <BasicMenu totalPrice={totalPrice} />
             </Grid>
           </Grid>
 

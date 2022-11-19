@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import { Box } from '@mui/material';
 import { lightBlue } from '@mui/material/colors';
 
-export default function BasicMenu() {
+export default function BasicMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [ordered, setOrdered] = React.useState(false)
     const handleClose = () => {
@@ -25,10 +25,10 @@ export default function BasicMenu() {
             >
                 <h3>Cart Totals</h3>
                 <div>
-                    <span className='subtotal d-flex'><h5>Subtotal</h5><p style={{ color: 'BLUE' }}>$101</p></span>
+                    <span className='subtotal d-flex'><h5>Subtotal</h5><p style={{ color: 'BLUE' }}>${props.totalPrice}</p></span>
                 </div>
                 <div>
-                    <span className='subtotal d-flex total'><h5>Total</h5 ><p style={{ color: 'BLUE' }}>$101</p></span>
+                    <span className='subtotal d-flex total'><h5>Total</h5 ><p style={{ color: 'BLUE' }}>${props.totalPrice}</p></span>
                 </div>
                 <div style={{ textAlign: 'center', paddingTop: '10px' }}>
                     <Button sx={{ borderRadius: '20px' }} variant='contained' onClick={() => setOrdered(!ordered)}>Proceed to checkout</Button>
@@ -36,7 +36,7 @@ export default function BasicMenu() {
             </Box>
             {
                 ordered ?
-                    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, textAlign: 'center', background: '#000', color: "#fff", zIndex: "33333333333333", fontSize: '50px' }} onClick={() => setOrdered(!ordered)}>
+                    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, textAlign: 'center', background: '#000', color: "#fff", zIndex: "33333333333333", fontSize: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setOrdered(!ordered)}>
                         Thankyou
                     </div>
                     :
